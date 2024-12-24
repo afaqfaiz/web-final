@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 const AddTask = () => {
+   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -12,22 +13,50 @@ const AddTask = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleAddTask = (e) => {
+  // const handleAddTask = (e) => {
+  //   e.preventDefault();
+  //   console.log(formData);
+  //   // Add task logic here
+  //   setFormData({
+  //     title: "",
+  //     description: "",
+  //     date: ""
+  //   });
+  // };
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    // Add task logic here
-    setFormData({
-      title: "",
-      description: "",
-      date: ""
-    });
+
+    try {
+      const response = await fetch("http://localhost:3000/api/task/store", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setError("");
+        
+        alert("task added successful!");
+        navigate('/')
+      } else {
+        setError(data.message || "adding failed");
+      }
+    } catch (err) {
+      setError("Failed to connect. Please try again.");
+    }
   };
+
 
   return (
     <div className='addtask-main'>
       <div className='addtask-container'>
         <h2 className='addtask-title'>Add Task</h2>
-        <form className='addtask-form' onSubmit={handleAddTask}>
+        <form className='addtask-form' onSubmit={handleSubmit}>
           <input
             type='text'
             className='addtask-input'
@@ -57,7 +86,7 @@ const AddTask = () => {
             placeholder='Due Date'
           />
 
-          <button className='addtask-button' type='submit'>Add Task</button>
+          <button className='addtask-button' type='submit' >Add Task</button>
         </form>
       </div>
     </div>

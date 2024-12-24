@@ -32,6 +32,8 @@ const Login = () => {
         setError("");
         setuser(data.user);
         localStorage.setItem("Token",data.token);
+        console.log(data.user.email)
+        localStorage.setItem("_email",data.user.email);
         alert("Login successful!");
         console.log("token",data.token)
         navigate('/')

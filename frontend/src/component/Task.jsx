@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const HallList = () => {
+const TaskList = () => {
     const [tasks, setTasks] = useState([]);
     const [message, setMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
@@ -10,8 +10,9 @@ const HallList = () => {
     useEffect(() => {
         const fetchTask = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/tasks/all`);
+                const response = await axios.get(`http://localhost:3000/api/task/alltask`);
                 setTasks(response.data);
+            
             } catch (error) {
                 console.error('Error fetching tasks:', error);
                 setErrorMessage('Failed to fetch tasks.');
@@ -19,20 +20,21 @@ const HallList = () => {
         };
 
         fetchTask();
+        console.log(tasks);
     }, []);
 
- 
+ //HallList
     return (
         <div>
             {message && <p style={{ color: 'green' }}>{message}</p>}
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
             <ul>
                 {tasks.map((task) => (
-                    <li key={tasks._id}>
-                        <p><strong>Title:</strong> {tasks.title}</p>
-                        <p><strong>description:</strong> {tasks.description}</p>
-                        <p><strong>Date:</strong> {tasks.description}</p>
-                        <button onClick={() => handleDelete(hall.Hall_ID)}>mark as done</button>
+                    <li key={task._id}>
+                        <p><strong>Title:</strong> {task.title}</p>
+                        <p><strong>description:</strong> {task.description}</p>
+                        <p><strong>Date:</strong> {task.description}</p>
+                        <button onClick={() => handleDelete(task._id)}>mark as done</button>
                     </li>
                 ))}
             </ul>
@@ -40,4 +42,4 @@ const HallList = () => {
     );
 };
 
-export default HallList;
+export default TaskList;

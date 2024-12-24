@@ -1,12 +1,15 @@
 import React from 'react';
 import { useState } from 'react'
+import Navbar from '../component/navbar';
 
-function Homepage() {
+const Homepage = () => {
   
 
   return (
      <div> 
+        <Navbar/>
       <p>Homepage page</p>
+ 
 
     </div>
 
